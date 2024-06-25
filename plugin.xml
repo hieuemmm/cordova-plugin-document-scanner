@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="cordova-plugin-document-scanner" version="5.0.0-beta.1">
-
-  <name>Scan</name>
-  <engines>
-    <engine name="cordova-android" version=">=6.4.0" />
-  </engines>
-  <asset src="www/scan.js" target="js/scan.js"/>
-  <js-module src="www/scan.js" name="scan">
-    <clobbers target="scan" />
-  </js-module>
-
-  <platform name="android">
-    <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="Scan">
-        <param name="android-package" value="com.neutrinos.plugin.Scan"/>
-      </feature>
-    </config-file>
-
-    <source-file src="src/android/Scan.java" target-dir="src/com/neutrinos/plugin/" />
-    <source-file src="src/android/FileHelper.java" target-dir="src/com/neutrinos/plugin/" />
-    <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
-  </platform>
-  
+<plugin
+	xmlns="http://www.phonegap.com/ns/plugins/1.0" id="cordova-plugin-document-scanner" version="5.0.0-beta.1"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+	<name>Scan</name>
+	<engines>
+		<engine name="cordova-android" version=">=6.4.0" />
+	</engines>
+	<asset src="www/scan.js" target="js/scan.js"/>
+	<js-module src="www/scan.js" name="scan">
+		<clobbers target="scan" />
+	</js-module>
+	<platform name="android">
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="Scan">
+				<param name="android-package" value="com.neutrinos.plugin.Scan"/>
+			</feature>
+		</config-file>
+		<config-file parent="application" target="AndroidManifest.xml">
+			<provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+				<meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource"/>
+			</provider>
+		</config-file>
+		<source-file src="src/android/Scan.java" target-dir="src/com/neutrinos/plugin/" />
+		<source-file src="src/android/FileHelper.java" target-dir="src/com/neutrinos/plugin/" />
+		<framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
+	</platform>
 </plugin>
